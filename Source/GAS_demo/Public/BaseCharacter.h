@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemComponent.h"
 #include "BaseCharacter.generated.h"
+//声明单变量动态多播委托
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangeEvent, float, NewValue);
 
 UCLASS()
@@ -26,5 +28,13 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	//将下一行的成员变量暴露给引擎的反射系统
+	//BlueprintAssignable表示这个委托事件可以被蓝图监听，Category表示在细节面板中这个属性会归于Ability类别下
+	UPROPERTY(BlueprintAssignable, Category = "Ability")
+	FOnHealthChangeEvent HPChangeEvent;
+	
+	
+	void OnHealthAttributeChanged(const FOnAttributeChangeData& Data);
 
 };
