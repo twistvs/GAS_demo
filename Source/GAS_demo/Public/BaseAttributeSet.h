@@ -6,12 +6,11 @@
 #include "AttributeSet.h"
 #include "AbilitySystemComponent.h"
 #include "BaseAttributeSet.generated.h"
-
-
 /**
  * 
  * 
  */
+//带参数的宏定义，相当于把define ATTRIBUTE_ACCESSORS(ClassName, PropertyName)换成下面的几行；而下面的几行也是宏，他们也会自动展开为函数
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
  	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
  	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
@@ -27,6 +26,7 @@ public:
 	//可编辑，被蓝图可读可写，被分在BaseAttributeSet类别下
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseAttributeSet")
 	FGameplayAttributeData HP;
+	//宏自动展开为四个宏，四个宏再展开为四个函数,这样就自动获得了对所有属性的四种操作函数，不需要我们自己写了
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, HP)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseAttributeSet")
 	FGameplayAttributeData MaxHP;
@@ -49,4 +49,5 @@ public:
 	FGameplayAttributeData MaxStrength;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, MaxStrength)
 	
+	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData &Data) override;
 };
