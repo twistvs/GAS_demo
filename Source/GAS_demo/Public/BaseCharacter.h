@@ -2,10 +2,12 @@
 
 #pragma once
 
+#include "BaseGameplayAbility.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemComponent.h"
 #include "BaseCharacter.generated.h"
+
 //声明单变量动态多播委托
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangeEvent, float, NewValue);
 
@@ -35,5 +37,8 @@ public:
 	FOnHealthChangeEvent HPChangeEvent;
 	
 	void OnHealthAttributeChanged(const FOnAttributeChangeData& Data);
+	
+	UFUNCTION(BlueprintCallable, Category = "BaseCharacter")
+	FGameplayAbilityInfo GameplayAbilityInfo(TSubclassOf<UBaseGameplayAbility>AbilityClass, int level);
 
 };

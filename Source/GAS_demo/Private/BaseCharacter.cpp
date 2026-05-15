@@ -52,3 +52,21 @@ void ABaseCharacter::OnHealthAttributeChanged(const FOnAttributeChangeData& Data
 	HPChangeEvent.Broadcast(Data.NewValue);
 }
 
+FGameplayAbilityInfo ABaseCharacter::GameplayAbilityInfo(TSubclassOf<UBaseGameplayAbility> AbilityClass, int level)
+{
+	//获取角色身上的技能组件
+	UAbilitySystemComponent* MyAbilitySystemComponent = this->FindComponentByClass<UAbilitySystemComponent>();
+	
+	//获取技能
+	UBaseGameplayAbility* AbilityInstance = AbilityClass->GetDefaultObject<UBaseGameplayAbility>();
+	
+	//如果技能组件和技能都存在
+	if (MyAbilitySystemComponent && AbilityInstance)
+	{
+		return AbilityInstance->GetAbilityInfo(level);
+	}
+		
+		
+	return FGameplayAbilityInfo(); 
+}
+
