@@ -48,10 +48,13 @@ UCLASS()
 class GAS_DEMO_API UBaseGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
+public:
 	
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityInfo")
 	UMaterialInstance* IconMaterial;
 	
-public:
+
 	//将函数暴露给蓝图
 	UFUNCTION(BlueprintCallable, Category = "AbilityInfo")
 	//获取技能属性信息函数，根据传进的技能等级获取技能的属性信息

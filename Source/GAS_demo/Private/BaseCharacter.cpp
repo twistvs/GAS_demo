@@ -27,6 +27,8 @@ void ABaseCharacter::BeginPlay()
 		//变化的数值是UBaseAttributeSet::GetHPAttribute()，也就是HP
 		//AddUObject把函数OnHealthAttributeChanged绑定到这个变化事件上
 		MyAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UBaseAttributeSet::GetHPAttribute()).AddUObject(this, &ABaseCharacter::OnHealthAttributeChanged);
+		MyAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UBaseAttributeSet::GetMPAttribute()).AddUObject(this, &ABaseCharacter::OnMPAttributeChanged);
+		MyAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UBaseAttributeSet::GetStrengthAttribute()).AddUObject(this, &ABaseCharacter::OnStrengthAttributeChanged);
 	}
 	
 }
@@ -50,6 +52,16 @@ void ABaseCharacter::OnHealthAttributeChanged(const FOnAttributeChangeData& Data
 {
 	//Data结构体包括oldvalue和newvalue，我们把newvalue广播出去；由于在前面定义的是单变量动态多播委托，所以只有一个参数
 	HPChangeEvent.Broadcast(Data.NewValue);
+}
+
+void ABaseCharacter::OnMPAttributeChanged(const FOnAttributeChangeData& Data)
+{
+	MPChangeEvent.Broadcast(Data.NewValue);
+}
+
+void ABaseCharacter::OnStrengthAttributeChanged(const FOnAttributeChangeData& Data)
+{
+	StrengthChangeEvent.Broadcast(Data.NewValue);
 }
 
 FGameplayAbilityInfo ABaseCharacter::GameplayAbilityInfo(TSubclassOf<UBaseGameplayAbility> AbilityClass, int level)
